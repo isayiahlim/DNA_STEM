@@ -1,0 +1,64 @@
+Welcome to the DNA Scanner! Results for dna.txt:
+
+Name: cure for cancer protein
+Nucleotides: ATGCCACTATGGTAG
+Nucleotide counts: [4, 3, 4, 4]
+Mass percentages: [27.32, 16.84, 30.55, 25.29]
+Codons: [ATG, CCA, CTA, TGG, TAG]
+Encodes a protein: yes
+
+Name: captain picard hair growth protein
+Nucleotides: ATGCCAACATGGATGCCCGATATGGATTGA
+Nucleotide counts: [9, 6, 8, 7]
+Mass percentages: [30.65, 16.80, 30.47, 22.07]
+Codons: [ATG, CCA, ACA, TGG, ATG, CCC, GAT, ATG, GAT, TGA]
+Encodes a protein: yes
+
+Name: bogus protein
+Nucleotides: CCATTAATGATCACAGTT
+Nucleotide counts: [6, 4, 2, 6]
+Mass percentages: [35.13, 19.25, 13.10, 32.52]
+Codons: [CCA, TTA, ATG, ATC, ACA, GTT]
+Encodes a protein: no
+
+Name: michael jordan mad hops protein
+Nucleotides: ATGAGATCCGTGATGTGGGATCCTACTCATTAA
+Nucleotide counts: [9, 6, 8, 10]
+Mass percentages: [28.00, 15.35, 27.84, 28.81]
+Codons: [ATG, AGA, TCC, GTG, ATG, TGG, GAT, CCT, ACT, CAT, TAA]
+Encodes a protein: yes
+
+Name: paris hilton phony protein
+Nucleotides: ATGCCAACATGGATGCCCTAAGATATGGATTAGTGA
+Nucleotide counts: [12, 6, 9, 9]
+Mass percentages: [33.96, 13.96, 28.49, 23.58]
+Codons: [ATG, CCA, ACA, TGG, ATG, CCC, TAA, GAT, ATG, GAT, TAG, TGA]
+Encodes a protein: yes
+
+Name: george w bush approval rating protein
+Nucleotides: ATGATAATTAGTTTTAATATCAGACTGTAA
+Nucleotide counts: [12, 2, 4, 12]
+Mass percentages: [41.06, 5.63, 15.31, 38.01]
+Codons: [ATG, ATA, ATT, AGT, TTT, AAT, ATC, AGA, CTG, TAA]
+Encodes a protein: no
+
+Name: jimi hendrix guitar talent protein
+Nucleotides: ATGCAATTGCTCGATTAG
+Nucleotide counts: [5, 3, 4, 6]
+Mass percentages: [28.58, 14.10, 25.57, 31.75]
+Codons: [ATG, CAA, TTG, CTC, GAT, TAG]
+Encodes a protein: yes
+
+Name: tyler durden's brain protein
+Nucleotides: ATGATACCTATGAGTAATGTGGACCATATCCAAACTATAGGCATTGTCGGACCAACGATCGATTGGTTATACTGA
+Nucleotide counts: [24, 14, 16, 21]
+Mass percentages: [32.95, 15.80, 24.56, 26.69]
+Codons: [ATG, ATA, CCT, ATG, AGT, AAT, GTG, GAC, CAT, ATC, CAA, ACT, ATA, GGC, ATT, GTC, GGA, CCA, ACG, ATC, GAT, TGG, TTA, TAC, TGA]
+Encodes a protein: yes
+
+Name: mini me growth hormone
+Nucleotides: ATGGGACGCTGA
+Nucleotide counts: [3, 2, 5, 2]
+Mass percentages: [24.82, 13.60, 46.26, 15.32]
+Codons: [ATG, GGA, CGC, TGA]
+Encodes a protein: yes
