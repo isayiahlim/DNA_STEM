@@ -1,11 +1,13 @@
 
 /*
- * Name
- * Date
- * APCS Period
+ * Isayiah Lim
+ * 1/14/2022
+ * APCS Period 2
  * DNA Project
  * 
- * Program Description
+ * Does it make a protein? This program reads different nucleotide chains from a text file and
+ * prints out the statistics of it, including numbers of each nucleotide and the percentage of 
+ * Cytosine and Guanine. Then it determines whether a protein is made!
  */
 import java.io.FileNotFoundException;
 
