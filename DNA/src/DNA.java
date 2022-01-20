@@ -27,7 +27,7 @@ public class DNA
      */
     public static void main(String[] args) throws FileNotFoundException
     {
-    	startAnalysis("dna_Expected.txt");
+    	startAnalysis("./input/dna.txt");
     }
     
     /*
@@ -41,20 +41,11 @@ public class DNA
     	File file = new File(filename);
         Scanner input = new Scanner(file);
         
-        //makes the three types of arrays 
-        int[] nucleotideNum = new int[NUM_NUCLEOTIDES];
+        //makes two of the three types of arrays 
+        int[] nNum = new int[NUM_NUCLEOTIDES];
         double[] massPercent = new double[NUM_NUCLEOTIDES];
-        String[] codons = findCodons();
         
-        //finds the different parts of the input and prints them out in the output
-        output(input, nucleotideNum, massPercent, codons);
-        
-    }
-    
-    //prints out all the outputs 
-    public static void output(Scanner input, int[] nNum, double[] massPercent, String[] codons)
-    {
-    	//welcome message
+        //welcome message
     	System.out.println("Welcome to the DNA Scanner! Results for dna.txt: ");
     	System.out.println();
     	
@@ -74,37 +65,115 @@ public class DNA
 	    	System.out.println("Name: " + name);
 	    	System.out.println("Nucleotides: " + sequence);
 	    	
-	    	//finds the number of each codon
+	    	//finds the number of each nucleotide
 	    	nNum = findNCount(sequence);
 	    	System.out.println("Nucleotide Counts: " + nNum.toString());
 	    	
+	    	//finds the percent of the total mass
 	    	massPercent = findMass(nNum);
 	    	System.out.println("Mass Percentages: " + massPercent.toString());
 	    	
-	    	codons = findCodons(sequence);
+	    	//finds the codons in the sequence
+	    	String[] codons = findCodons(sequence);
 	    	System.out.println("Codons: " + codons.toString());
 	    	
-	    	isProtein = protein();
-	    	System.out.println("Encodes a protein: ");
+	    	//determines whether it's a protein
+	    	isProtein = protein(massPercent, codons);
+	    	System.out.println("Encodes a protein: " + isProtein);
 	    	System.out.println();
-    	}	
+    	}
+        
     }
     
-    public static int[] findNCount(String sequence)
+    //returns an array with the number of each nucleotide
+    public static int[] findNCount(String sequence) 
     {
-    	int[] num = new int[]
-    	for(int i = 0; i < sequence.length(); i++)
+    	int[] num = new int[NUM_NUCLEOTIDES];
+    	for(int i = 0; i < sequence.length()-1; i++)
     	{
-    		
-    			
+    		if(sequence.charAt(i) == 'A')
+    			num[0] ++;
+    		else if(sequence.charAt(i) == 'C')
+    			num[1] ++;
+    		else if(sequence.charAt(i) == 'G')
+    			num[2] ++;
+    		else if(sequence.charAt(i) == 'T')
+    			num[3] ++;
     	}
+    	return num;
+    }
+    
+    //returns an array with the masses of each nucleotide
+    public static double[] findMass(int[] nucleotides)
+    {
+    	//makes a duplicate array that can be modified
+    	double[] masses = new double[NUM_NUCLEOTIDES];
+    	for(int i : nucleotides)
+    		masses[i] = nucleotides[i];
+    	
+    	//variables to calculate total mass 
+    	double total = 0;
+    	double multiple = 1;
+    	
+    	//calculates the total masses of each
+    	for(int i = 0; i < masses.length; i ++)
+    	{
+    		if(i == 0)
+    			multiple = 135.128;
+    		else if(i == 1)
+    			multiple = 111.103;
+    		else if(i == 2)
+    			multiple = 151.128;
+    		else if(i == 3)
+    			multiple = 125.107;
+    		masses[i] *= multiple;
+    	}
+    	
+    	//calculates the total mass
+    	for(double i : masses)
+    		total += i;
+    	
+    	//calculates the percent mass and reassigns it to the mass array
+    	for(int i = 0; i < masses.length; i ++)
+    	 	masses[i] = masses[i]/total * 100;
+    	
+    	return masses;
     }
     
     //returns an array with the codons
     public static String[] findCodons(String sequence)
     {
-    	
+    	String[] codons = new String[sequence.length()/CODON_LENGTH];
+    	for(int i = 0; i < sequence.length()/CODON_LENGTH; i+=CODON_LENGTH)
+    	{
+    		codons[i] = sequence.substring(i,i+CODON_LENGTH);
+    	}
+    	return codons;
     }
+    
+    /*
+     * checks if the string has CG of the right percentage, starts with ATG, Ends with TAA, TAG,
+     * or TGA, and is over the minimum length
+    */
+    public static boolean protein(double[] massPercent, String[] codons)
+    {
+    	//makes a variable equal to the last codon
+    	String word = codons[codons.length-1];
+    	//makes sure the percentage of the two is right
+    	if((massPercent[1] + massPercent[2]) < CG_PERCENTAGE)
+    		return false;
+    	//makes sure the start codon is right
+    	if(!codons[0].equals("ATG"))
+    		return false;
+    	//makes sure the nucleotide string is long enough
+    	if(codons.length < MINIMUM_LENGTH)
+    		return false;
+    	//make sure the end codon is right
+    	if(!word.equals("TAA") && !word.equals("TAG") && !word.equals("TGA"))
+    		return false;
+    	return true;
+    }
+    
     
     /*
      * This method should serve as the primary method for Part 2 of this project.
