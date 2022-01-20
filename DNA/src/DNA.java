@@ -10,6 +10,7 @@
  * Cytosine and Guanine. Then it determines whether a protein is made!
  */
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 //imports files and scanners
 import java.io.File;
 import java.util.Scanner;
@@ -67,15 +68,15 @@ public class DNA
 	    	
 	    	//finds the number of each nucleotide
 	    	nNum = findNCount(sequence);
-	    	System.out.println("Nucleotide Counts: " + nNum.toString());
+	    	System.out.println("Nucleotide Counts: " + Arrays.toString(nNum));
 	    	
 	    	//finds the percent of the total mass
 	    	massPercent = findMass(nNum);
-	    	System.out.println("Mass Percentages: " + massPercent.toString());
+	    	System.out.println("Mass Percentages: " + Arrays.toString(massPercent));
 	    	
 	    	//finds the codons in the sequence
 	    	String[] codons = findCodons(sequence);
-	    	System.out.println("Codons: " + codons.toString());
+	    	System.out.println("Codons: " + Arrays.toString(codons));
 	    	
 	    	//determines whether it's a protein
 	    	isProtein = protein(massPercent, codons);
