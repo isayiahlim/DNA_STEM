@@ -72,7 +72,11 @@ public class DNA
 	    	
 	    	//finds the percent of the total mass
 	    	massPercent = findMass(nNum);
-	    	System.out.println("Mass Percentages: " + Arrays.toString(massPercent));
+	    	System.out.print("Mass Percentages: [" );
+	    	//prints the percentages to two decimal points
+	    	for(int i = 0; i < massPercent.length-1; i ++)
+    			System.out.printf("%.2f, ", massPercent[i]);
+	    	System.out.println(massPercent[NUM_NUCLEOTIDES-1] + "]");
 	    	
 	    	//finds the codons in the sequence
 	    	String[] codons = findCodons(sequence);
@@ -109,7 +113,7 @@ public class DNA
     {
     	//makes a duplicate array that can be modified
     	double[] masses = new double[NUM_NUCLEOTIDES];
-    	for(int i : nucleotides)
+    	for(int i = 0; i < nucleotides.length; i++)
     		masses[i] = nucleotides[i];
     	
     	//variables to calculate total mass 
@@ -145,9 +149,9 @@ public class DNA
     public static String[] findCodons(String sequence)
     {
     	String[] codons = new String[sequence.length()/CODON_LENGTH];
-    	for(int i = 0; i < sequence.length()/CODON_LENGTH; i+=CODON_LENGTH)
+    	for(int i = 0; i < sequence.length()/CODON_LENGTH; i++)
     	{
-    		codons[i] = sequence.substring(i,i+CODON_LENGTH);
+    		codons[i] = sequence.substring(CODON_LENGTH*i,CODON_LENGTH*i+CODON_LENGTH);
     	}
     	return codons;
     }
