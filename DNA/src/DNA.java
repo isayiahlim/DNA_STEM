@@ -53,7 +53,7 @@ public class DNA
     	//declares variables that will be used in printing out the stats
     	String name;
     	String sequence;
-    	boolean isProtein;
+    	String isProtein;
     	
     	//runs until there are no more lines to read
     	while(input.hasNextLine())
@@ -68,11 +68,11 @@ public class DNA
 	    	
 	    	//finds the number of each nucleotide
 	    	nNum = findNCount(sequence);
-	    	System.out.println("Nucleotide Counts: " + Arrays.toString(nNum));
+	    	System.out.println("Nucleotide counts: " + Arrays.toString(nNum));
 	    	
 	    	//finds the percent of the total mass
 	    	massPercent = findMass(nNum);
-	    	System.out.print("Mass Percentages: [" );
+	    	System.out.print("Mass percentages: [" );
 	    	//prints the percentages to two decimal points
 	    	for(int i = 0; i < massPercent.length-1; i ++)
     			System.out.printf("%.2f, ", massPercent[i]);
@@ -85,7 +85,7 @@ public class DNA
 	    	
 	    	//determines whether it's a protein
 	    	isProtein = protein(massPercent, codons);
-	    	System.out.println("Encodes a protein: " + isProtein);
+	    	System.out.print("Encodes a protein: " );
 	    	System.out.println();
     	}
         
@@ -161,23 +161,23 @@ public class DNA
      * checks if the string has CG of the right percentage, starts with ATG, Ends with TAA, TAG,
      * or TGA, and is over the minimum length
     */
-    public static boolean protein(double[] massPercent, String[] codons)
+    public static String protein(double[] massPercent, String[] codons)
     {
     	//makes a variable equal to the last codon
     	String word = codons[codons.length-1];
     	//makes sure the percentage of the two is right
     	if((massPercent[1] + massPercent[2]) < CG_PERCENTAGE)
-    		return false;
+    		return "no";
     	//makes sure the start codon is right
     	if(!codons[0].equals("ATG"))
-    		return false;
+    		return "no";
     	//makes sure the nucleotide string is long enough
     	if(codons.length < MINIMUM_LENGTH)
-    		return false;
+    		return "no";
     	//make sure the end codon is right
     	if(!word.equals("TAA") && !word.equals("TAG") && !word.equals("TGA"))
-    		return false;
-    	return true;
+    		return "no";
+    	return "yes";
     }
     
     
