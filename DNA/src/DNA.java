@@ -53,7 +53,6 @@ public class DNA
     	//declares variables that will be used in printing out the stats
     	String name;
     	String sequence;
-    	String isProtein;
     	
     	//runs until there are no more lines to read
     	while(input.hasNextLine())
@@ -66,27 +65,22 @@ public class DNA
 	    	System.out.println("Name: " + name);
 	    	System.out.println("Nucleotides: " + sequence);
 	    	
-	    	//finds the number of each nucleotide
+	    	//finds and prints the number of each nucleotide
 	    	nNum = findNCount(sequence);
 	    	System.out.println("Nucleotide counts: " + Arrays.toString(nNum));
 	    	
-	    	//finds the percent of the total mass
+	    	//finds and prints the percent of the total mass
 	    	massPercent = findMass(nNum);
-	    	System.out.print("Mass percentages: [" );
-	    	//prints the percentages to two decimal points
-	    	for(int i = 0; i < massPercent.length-1; i ++)
-    			System.out.printf("%.2f, ", massPercent[i]);
-	    	System.out.printf("%.2f", massPercent[NUM_NUCLEOTIDES-1]);
-	    	System.out.println("]");
+	    	printMass(massPercent);
 	    	
-	    	//finds the codons in the sequence
+	    	//finds and prints the codons in the sequence
 	    	String[] codons = findCodons(sequence);
 	    	System.out.println("Codons: " + Arrays.toString(codons));
 	    	
-	    	//determines whether it's a protein
-	    	isProtein = protein(massPercent, codons);
-	    	System.out.print("Encodes a protein: " );
+	    	//determines and prints whether it's a protein
+	    	protein(massPercent, codons);
 	    	System.out.println();
+	    	
     	}
         
     }
@@ -146,6 +140,17 @@ public class DNA
     	return masses;
     }
     
+    //prints out the masses given the array 
+    public static void printMass(double[] mass)
+    {
+    	System.out.print("Mass percentages: [" );
+    	//prints the percentages to two decimal points
+    	for(int i = 0; i < mass.length-1; i ++)
+			System.out.printf("%.2f, ", mass[i]);
+    	System.out.printf("%.2f", mass[NUM_NUCLEOTIDES-1]);
+    	System.out.println("]");
+    }
+    
     //returns an array with the codons
     public static String[] findCodons(String sequence)
     {
@@ -161,23 +166,24 @@ public class DNA
      * checks if the string has CG of the right percentage, starts with ATG, Ends with TAA, TAG,
      * or TGA, and is over the minimum length
     */
-    public static String protein(double[] massPercent, String[] codons)
+    public static void protein(double[] massPercent, String[] codons)
     {
     	//makes a variable equal to the last codon
     	String word = codons[codons.length-1];
     	//makes sure the percentage of the two is right
     	if((massPercent[1] + massPercent[2]) < CG_PERCENTAGE)
-    		return "no";
+    		System.out.println("Encodes a protein: no");
     	//makes sure the start codon is right
-    	if(!codons[0].equals("ATG"))
-    		return "no";
+    	else if(!codons[0].equals("ATG"))
+    		System.out.println("Encodes a protein: no");
     	//makes sure the nucleotide string is long enough
-    	if(codons.length < MINIMUM_LENGTH)
-    		return "no";
+    	else if(codons.length < MINIMUM_LENGTH)
+    		System.out.println("Encodes a protein: no");
     	//make sure the end codon is right
-    	if(!word.equals("TAA") && !word.equals("TAG") && !word.equals("TGA"))
-    		return "no";
-    	return "yes";
+    	else if(!word.equals("TAA") && !word.equals("TAG") && !word.equals("TGA"))
+    		System.out.println("Encodes a protein: no");
+    	else
+    		System.out.println("Encodes a protein: yes");
     }
     
     
