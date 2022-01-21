@@ -10,10 +10,10 @@
  * Cytosine and Guanine. Then it determines whether a protein is made!
  */
 import java.io.FileNotFoundException;
-import java.util.Arrays;
-//imports files and scanners
+//imports files, scanners, and Arrays (for Arrays.toString)
 import java.io.File;
 import java.util.Scanner;
+import java.util.Arrays;
 public class DNA
 {
     //class constants
@@ -38,8 +38,8 @@ public class DNA
      */
     public static void startAnalysis(String filename) throws FileNotFoundException
     {
-        //scans the file
-    	File file = new File("./input/"+filename);
+        //reads the file
+    	File file = new File("./input/" + filename);
         Scanner input = new Scanner(file);
         
         //makes two of the three types of arrays (nucleotide counts and mass)
@@ -111,32 +111,21 @@ public class DNA
     	for(int i = 0; i < nucleotides.length; i++)
     		masses[i] = nucleotides[i];
     	
-    	//variables to calculate total mass 
+    	//variable to calculate total mass 
     	double total = 0;
-    	double multiple = 1;
     	
     	//calculates the total masses of each
-    	for(int i = 0; i < masses.length; i ++)
-    	{
-    		if(i == 0)
-    			multiple = 135.128;
-    		else if(i == 1)
-    			multiple = 111.103;
-    		else if(i == 2)
-    			multiple = 151.128;
-    		else if(i == 3)
-    			multiple = 125.107;
-    		masses[i] *= multiple;
-    	}
+		masses[0] *=135.128;
+   		masses[1] *= 111.103;
+    	masses[2] *= 151.128;
+   		masses[3] *= 125.107;
     	
     	//calculates the total mass
     	for(double i : masses)
     		total += i;
-    	
     	//calculates the percent mass and reassigns it to the mass array
     	for(int i = 0; i < masses.length; i ++)
     	 	masses[i] = masses[i]/total * 100;
-    	
     	return masses;
     }
     
@@ -145,7 +134,7 @@ public class DNA
     {
     	System.out.print("Mass percentages: [" );
     	//prints the percentages to two decimal points
-    	for(int i = 0; i < mass.length-1; i ++)
+    	for(int i = 0; i < mass.length-1; i++)
 			System.out.printf("%.2f, ", mass[i]);
     	System.out.printf("%.2f", mass[NUM_NUCLEOTIDES-1]);
     	System.out.println("]");
@@ -164,7 +153,7 @@ public class DNA
     
     /*
      * checks if the string has CG of the right percentage, starts with ATG, Ends with TAA, TAG,
-     * or TGA, and is over the minimum length
+     * or TGA, and is over the minimum length, then prints out whether it is a protein
     */
     public static void protein(double[] massPercent, String[] codons)
     {
