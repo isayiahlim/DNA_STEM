@@ -28,7 +28,7 @@ public class DNA
      */
     public static void main(String[] args) throws FileNotFoundException
     {
-    	startAnalysis("./input/dna.txt");
+    	startAnalysis("dna.txt");
     }
     
     /*
@@ -39,7 +39,7 @@ public class DNA
     public static void startAnalysis(String filename) throws FileNotFoundException
     {
         //scans the file
-    	File file = new File(filename);
+    	File file = new File("./input/"+filename);
         Scanner input = new Scanner(file);
         
         //makes two of the three types of arrays (nucleotide counts and mass)
@@ -47,7 +47,7 @@ public class DNA
         double[] massPercent = new double[NUM_NUCLEOTIDES];
         
         //welcome message
-    	System.out.println("Welcome to the DNA Scanner! Results for dna.txt:");
+    	System.out.println("Welcome to the DNA Scanner! Results for "+ filename);
     	System.out.println();
     	
     	//declares variables that will be used in printing out the stats
