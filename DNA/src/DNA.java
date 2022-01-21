@@ -111,11 +111,11 @@ public class DNA
     	for(int i = 0; i < nucleotides.length; i++)
     		masses[i] = nucleotides[i];
     	
-    	//variable to calculate total mass 
+    	//variable used to calculate total mass 
     	double total = 0;
     	
-    	//calculates the total masses of each
-		masses[0] *=135.128;
+    	//calculates the total masses of each- must add more of these if there are more nucleotides
+		masses[0] *= 135.128;
    		masses[1] *= 111.103;
     	masses[2] *= 151.128;
    		masses[3] *= 125.107;
