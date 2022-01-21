@@ -42,12 +42,12 @@ public class DNA
     	File file = new File(filename);
         Scanner input = new Scanner(file);
         
-        //makes two of the three types of arrays 
+        //makes two of the three types of arrays (nucleotide counts and mass)
         int[] nNum = new int[NUM_NUCLEOTIDES];
         double[] massPercent = new double[NUM_NUCLEOTIDES];
         
         //welcome message
-    	System.out.println("Welcome to the DNA Scanner! Results for dna.txt: ");
+    	System.out.println("Welcome to the DNA Scanner! Results for dna.txt:");
     	System.out.println();
     	
     	//declares variables that will be used in printing out the stats
@@ -76,7 +76,8 @@ public class DNA
 	    	//prints the percentages to two decimal points
 	    	for(int i = 0; i < massPercent.length-1; i ++)
     			System.out.printf("%.2f, ", massPercent[i]);
-	    	System.out.println(massPercent[NUM_NUCLEOTIDES-1] + "]");
+	    	System.out.printf("%.2f", massPercent[NUM_NUCLEOTIDES-1]);
+	    	System.out.println("]");
 	    	
 	    	//finds the codons in the sequence
 	    	String[] codons = findCodons(sequence);
@@ -94,7 +95,7 @@ public class DNA
     public static int[] findNCount(String sequence) 
     {
     	int[] num = new int[NUM_NUCLEOTIDES];
-    	for(int i = 0; i < sequence.length()-1; i++)
+    	for(int i = 0; i < sequence.length(); i++)
     	{
     		if(sequence.charAt(i) == 'A')
     			num[0] ++;
