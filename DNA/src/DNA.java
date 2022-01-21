@@ -47,7 +47,7 @@ public class DNA
         double[] massPercent = new double[NUM_NUCLEOTIDES];
         
         //welcome message
-    	System.out.println("Welcome to the DNA Scanner! Results for "+ filename);
+    	System.out.println("Welcome to the DNA Scanner! Results for "+ filename + ":");
     	System.out.println();
     	
     	//declares variables that will be used in printing out the stats
