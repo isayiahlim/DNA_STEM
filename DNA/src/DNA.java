@@ -93,7 +93,7 @@ public class DNA
     	{
     		if(sequence.charAt(i) == 'A')
     			num[0] ++;
-    		else if(sequence.charAt(i) == 'C')
+    		else if(sequence.charAt(i)== 'C')
     			num[1] ++;
     		else if(sequence.charAt(i) == 'G')
     			num[2] ++;
@@ -136,6 +136,7 @@ public class DNA
     	//prints the percentages to two decimal points
     	for(int i = 0; i < mass.length-1; i++)
 			System.out.printf("%.2f, ", mass[i]);
+    	//prints out the last element
     	System.out.printf("%.2f", mass[NUM_NUCLEOTIDES-1]);
     	System.out.println("]");
     }
