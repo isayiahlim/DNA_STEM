@@ -16,7 +16,7 @@ import java.util.Scanner;
 import java.util.Arrays;
 public class DNA
 {
-    //class constants
+    //class constants - may have to add lines of code if changing the num Nucleotides
 	public static final int MINIMUM_LENGTH = 4;
 	public static final int CG_PERCENTAGE = 30;
 	public static final int NUM_NUCLEOTIDES = 4;
@@ -38,11 +38,11 @@ public class DNA
      */
     public static void startAnalysis(String filename) throws FileNotFoundException
     {
-        //reads the file
+        //reads through the file
     	File file = new File("./input/" + filename);
         Scanner input = new Scanner(file);
         
-        //makes two of the three types of arrays (nucleotide counts and mass)
+        //makes two of the three arrays (nucleotide counts and mass)
         int[] nNum = new int[NUM_NUCLEOTIDES];
         double[] massPercent = new double[NUM_NUCLEOTIDES];
         
@@ -54,14 +54,14 @@ public class DNA
     	String name;
     	String sequence;
     	
-    	//runs until there are no more lines to read
+    	//prints output and runs until there are no more lines to read
     	while(input.hasNextLine())
     	{
     		//initializes the variables to the name and nucleotides
     		name = input.nextLine();
 	    	sequence = input.nextLine().toUpperCase();
 	    	
-	    	//gives the name and the sequence of nucleotides
+	    	//finds the name and the sequence of nucleotides
 	    	System.out.println("Name: " + name);
 	    	System.out.println("Nucleotides: " + sequence);
 	    	
@@ -80,15 +80,15 @@ public class DNA
 	    	//determines and prints whether it's a protein
 	    	protein(massPercent, codons);
 	    	System.out.println();
-	    	
     	}
-        
     }
     
     //returns an array with the number of each nucleotide
     public static int[] findNCount(String sequence) 
     {
+    	//makes an array with length NumNucleotides
     	int[] num = new int[NUM_NUCLEOTIDES];
+    	//+s to array with the # of each nucleotide (must add another else if after changed global)
     	for(int i = 0; i < sequence.length(); i++)
     	{
     		if(sequence.charAt(i) == 'A')
@@ -111,7 +111,7 @@ public class DNA
     	for(int i = 0; i < nucleotides.length; i++)
     		masses[i] = nucleotides[i];
     	
-    	//variable used to calculate total mass 
+    	//variable used to calculate total mass of nucleotide
     	double total = 0;
     	
     	//calculates the total masses of each- must add more of these if there are more nucleotides
@@ -144,10 +144,9 @@ public class DNA
     public static String[] findCodons(String sequence)
     {
     	String[] codons = new String[sequence.length()/CODON_LENGTH];
+    	//sets each element in the array to a codon of codon length
     	for(int i = 0; i < sequence.length()/CODON_LENGTH; i++)
-    	{
     		codons[i] = sequence.substring(CODON_LENGTH*i,CODON_LENGTH*i+CODON_LENGTH);
-    	}
     	return codons;
     }
     
