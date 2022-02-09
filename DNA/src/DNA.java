@@ -29,6 +29,7 @@ public class DNA
     public static void main(String[] args) throws FileNotFoundException
     {
     	startAnalysis("dna.txt");
+    	startAnalysisPart2("dna.txt");
     }
     
     /*
@@ -78,7 +79,7 @@ public class DNA
 	    	System.out.println("Codons: " + Arrays.toString(codons));
 	    	
 	    	//determines and prints whether it's a protein
-	    	protein(massPercent, codons);
+	    	System.out.print(protein(massPercent, codons));
 	    	System.out.println();
     	}
     }
@@ -155,24 +156,24 @@ public class DNA
      * checks if the string has CG of the right percentage, starts with ATG, Ends with TAA, TAG,
      * or TGA, and is over the minimum length, then prints out whether it is a protein
     */
-    public static void protein(double[] massPercent, String[] codons)
+    public static String protein(double[] massPercent, String[] codons)
     {
     	//makes a variable equal to the last codon
     	String word = codons[codons.length-1];
     	//makes sure the percentage of the two is right
     	if((massPercent[1] + massPercent[2]) < CG_PERCENTAGE)
-    		System.out.println("Encodes a protein: no");
+    		return "Encodes a protein: no";
     	//makes sure the start codon is right
     	else if(!codons[0].equals("ATG"))
-    		System.out.println("Encodes a protein: no");
+    		return "Encodes a protein: no";
     	//makes sure the nucleotide string is long enough
     	else if(codons.length < MINIMUM_LENGTH)
-    		System.out.println("Encodes a protein: no");
+    		return "Encodes a protein: no";
     	//make sure the end codon is right
     	else if(!word.equals("TAA") && !word.equals("TAG") && !word.equals("TGA"))
-    		System.out.println("Encodes a protein: no");
+    		return "Encodes a protein: no";
     	else
-    		System.out.println("Encodes a protein: yes");
+    		return "Encodes a protein: yes";
     }
     
     
@@ -184,7 +185,164 @@ public class DNA
      */
     public static String[][] startAnalysisPart2(String filename) throws FileNotFoundException
     {
-        return null;
+        //makes a new 2D string Array
+    	String[][] data = {
+    		{"Name", "Nucleotides", "Nucleotide counts", 
+    			"Mass percentages", "Codons", "Encodes a protein"}
+    	};
+    	
+    	//variable that increments for each iteration of the while loop, increasing number of rows
+    	int rows = 2;
+    	
+    	//reads through the file
+    	File file = new File("./input/" + filename);
+        Scanner input = new Scanner(file);
+        
+        //makes two of the three arrays (nucleotide counts and mass)
+        int[] nNum = new int[NUM_NUCLEOTIDES];
+        double[] massPercent = new double[NUM_NUCLEOTIDES];
+        
+        //welcome message
+    	System.out.println("Welcome to the DNA Scanner! Results for "+ filename + ":");
+    	System.out.println();
+    	
+    	//declares variables that will be used in adding to the stats
+    	String name;
+    	String sequence;
+    	
+    	//prints output and runs until there are no more lines to read
+    	while(input.hasNextLine())
+    	{
+    		//declares and initializes the temp array
+    		String[][] tempData = new String[rows][6];
+    		for(int i = 0; i < rows; i++)	
+    			tempData[i] = data[i];
+    		
+    		//initializes the variables to the name and nucleotides
+    		name = input.nextLine();
+	    	sequence = input.nextLine().toUpperCase();
+	    	
+	    	//finds the name and the sequence of nucleotides
+	    	tempData[rows-1][0] = name;
+	    	tempData[rows-1][1] = sequence;
+	    	
+	    	//finds the number of each nucleotide, percent of total mass, and codons
+	    	nNum = findNCount(sequence);
+	    	tempData[rows-1][2] = Arrays.toString(nNum);
+	    	tempData[rows-1][3] = Arrays.toString(findMass(nNum));
+	    	tempData[rows-1][4] = Arrays.toString(findCodons(sequence));
+	    	
+	    	//determines whether it's a protein
+	    	tempData[rows-1][5] = protein(massPercent, findCodons(sequence));
+	    	System.out.println();
+	    	
+	    	data = tempData;
+    		rows++;
+    	}
+    	report(data);
+    	return data;
     }
     
+    public static void report(String[][] data)
+    {
+    	System.out.println(data.length + " nucleotide sequences were analyzed");
+    	
+    	//counts how many proteins are in the 2D array
+    	int numProteins = countProteins(data);
+    	System.out.println(numProteins + " of those sequences were identified as proteins.");
+    	
+    	//prints the strand with the most of any nucleotide according to a method mostNucl
+    	System.out.println(mostNucl(data, 0) + " has the most occurances of Adenine.");
+    	System.out.println(mostNucl(data, 1) + " has the most occurances of Cytosine.");
+    	System.out.println(mostNucl(data, 2) + " has the most occurances of Guanine.");
+    	System.out.println(mostNucl(data, 3) + " has the most occurances of Thymine.");
+    	
+    	//counts how many sequences begin/end with a given codon
+    	System.out.println(countCodon(data, "ATG", false) + " sequences begin with ATG.");
+    	System.out.println(countCodon(data, "TAA", true) + " sequences end with TAA.");
+    	System.out.println(countCodon(data, "TAG", true) + " sequences end with TAG.");
+    	System.out.println(countCodon(data, "TGA", true) + " sequences end with TGA.");
+    	
+    	//checks if the number of codons is more than 4
+    	System.out.println(above4(data) + " sequences contain at least 4 codons.");
+    	
+    	//counts how many sequences have at least 30% of their mass as C and G
+    	System.out.print(percentCG(data));
+    	System.out.println(" sequences have at least 30% of their mass from Cytosine and Guanine.");
+    }
+    
+    //counts the number of proteins in an array
+    public static int countProteins(String[][] data)
+    {
+    	int count = 0;
+    	for(int i = 0; i < data.length; i++)
+    	{
+    		//if the answer to encodes a protein is yes, then it will add one to the count
+    		if(data[i][5].equals("Encodes a protein: yes"))
+    			count++;
+    	}
+    	return count;
+    }
+    
+    //finds which protein has the most of the given nucleotide
+    public static String mostNucl(String[][] data, int num)
+    {
+    	int top = 0;
+    	String highest = "";
+    	for(int i = 0; i < data.length; i++)
+    	{
+    		//turns the 3rd column in each row into a new String Array
+    		String[] newA = data[i][2].split(" ");
+    		//turns this string into an integer, then if it is greater than the previous highest 
+    		//it changes both the highest number of the nucleotide and the name of the nucleotide.
+    		if(Integer.parseInt(newA[num]) > top)
+    		{
+    			top = Integer.parseInt(newA[num]);
+    			highest = data[i][0];
+    		}
+    	}
+    	return highest;	
+    }
+    
+    //counts how many of a codon begin or end a strand in a given 2D array 
+    public static int countCodon(String[][] data, String codon, boolean ends)
+    {
+    	int num = 0;    	
+    	for(int i = 0; i < data.length; i++)
+    	{
+	    	if(ends)
+    			if(data[i][4].substring(data[i][4].length()-3).equals(codon))
+	    			num++;
+	    	else
+	    		if(data[i][4].substring(0,3).equals(codon))
+	    			num++;
+    	}
+    	return num;
+    }
+    
+    //ensures the codon count exceeds 4
+    public static int above4(String[][] data)
+    {
+    	int num = 0;
+    	for(int i = 0; i < data.length; i++)
+    	{
+    		//turns the string into an array, then makes sure there are at least 4 codons
+    		if(data[i][4].split(" ").length >= 4)
+    			num++;
+    	}
+    	return num;
+    }
+    
+    //counts how many arrays have above 30% cytosine and guanine
+    public static int percentCG(String[][] data)
+    {
+    	int num = 0;
+    	for(int i = 0; i < data.length; i++)
+    	{
+    		String[] temp = data[i][3].split(" ");
+    		if(Integer.parseInt(temp[1]) + Integer.parseInt(temp[2]) >= 30)
+    			num++;
+    	}
+    	return num;
+    }
 }
