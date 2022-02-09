@@ -79,7 +79,7 @@ public class DNA
 	    	System.out.println("Codons: " + Arrays.toString(codons));
 	    	
 	    	//determines and prints whether it's a protein
-	    	System.out.print(protein(massPercent, codons));
+	    	System.out.println(protein(massPercent, codons));
 	    	System.out.println();
     	}
     }
@@ -215,7 +215,7 @@ public class DNA
     	{
     		//declares and initializes the temp array
     		String[][] tempData = new String[rows][6];
-    		for(int i = 0; i < rows; i++)	
+    		for(int i = 0; i < rows-1; i++)	
     			tempData[i] = data[i];
     		
     		//initializes the variables to the name and nucleotides
@@ -234,7 +234,6 @@ public class DNA
 	    	
 	    	//determines whether it's a protein
 	    	tempData[rows-1][5] = protein(massPercent, findCodons(sequence));
-	    	System.out.println();
 	    	
 	    	data = tempData;
     		rows++;
@@ -248,8 +247,7 @@ public class DNA
     	System.out.println(data.length + " nucleotide sequences were analyzed");
     	
     	//counts how many proteins are in the 2D array
-    	int numProteins = countProteins(data);
-    	System.out.println(numProteins + " of those sequences were identified as proteins.");
+    	System.out.println(countProteins(data) + " of those sequences were identified as proteins.");
     	
     	//prints the strand with the most of any nucleotide according to a method mostNucl
     	System.out.println(mostNucl(data, 0) + " has the most occurances of Adenine.");
