@@ -191,9 +191,6 @@ public class DNA
     			"Mass percentages", "Codons", "Encodes a protein"}
     	};
     	
-    	//variable that increments for each iteration of the while loop, increasing number of rows
-    	int rows = 2;
-    	
     	//reads through the file
     	File file = new File("./input/" + filename);
         Scanner input = new Scanner(file);
@@ -202,48 +199,64 @@ public class DNA
         int[] nNum = new int[NUM_NUCLEOTIDES];
         double[] massPercent = new double[NUM_NUCLEOTIDES];
         
-        //welcome message
+        //declares variables that will be used in adding to the stats
+    	String name = "";
+    	String sequence = "";
+        
+    	//welcome message
     	System.out.println("Welcome to the DNA Scanner! Results for "+ filename + ":");
     	System.out.println();
-    	
-    	//declares variables that will be used in adding to the stats
-    	String name;
-    	String sequence;
     	
     	//prints output and runs until there are no more lines to read
     	while(input.hasNextLine())
     	{
-    		//declares and initializes the temp array
-    		String[][] tempData = new String[rows][6];
-    		for(int i = 0; i < rows-1; i++)	
-    			tempData[i] = data[i];
-    		
-    		//initializes the variables to the name and nucleotides
-    		name = input.nextLine();
-	    	sequence = input.nextLine().toUpperCase();
-	    	
-	    	//finds the name and the sequence of nucleotides
-	    	tempData[rows-1][0] = name;
-	    	tempData[rows-1][1] = sequence;
-	    	
-	    	//finds the number of each nucleotide, percent of total mass, and codons
-	    	nNum = findNCount(sequence);
-	    	tempData[rows-1][2] = Arrays.toString(nNum);
-	    	tempData[rows-1][3] = Arrays.toString(findMass(nNum));
-	    	tempData[rows-1][4] = Arrays.toString(findCodons(sequence));
-	    	
-	    	//determines whether it's a protein
-	    	tempData[rows-1][5] = protein(massPercent, findCodons(sequence));
-	    	
-	    	data = tempData;
-    		rows++;
+    		data = scanning(data, nNum, massPercent, input, name, sequence);
     	}
     	report(data);
     	return data;
     }
     
+    //takes the data array and makes it one row longer
+    public static String[][] scanning(String [][] data, int[] nNum, double[] massPercent,
+    		Scanner input, String name, String sequence)
+    {
+    	int rows = data.length;
+    	
+		//declares and initializes the temp array
+    	String[][] tempData = new String[data.length + 1][6];
+		for(int i = 0; i < rows; i++)
+			tempData[i] = data[i];
+		
+		//initializes the variables to the name and nucleotides
+		name = input.nextLine();
+    	sequence = input.nextLine().toUpperCase();
+    	
+    	//finds the name and the sequence of nucleotides
+    	tempData[rows][0] = name;
+    	tempData[rows][1] = sequence;
+    	
+    	//finds the number of each nucleotide, percent of total mass, and codons
+    	nNum = findNCount(sequence);
+    	tempData[rows][2] = Arrays.toString(nNum);
+    	tempData[rows][3] = Arrays.toString(findMass(nNum));
+    	tempData[rows][4] = Arrays.toString(findCodons(sequence));
+    	
+    	//determines whether it's a protein
+    	tempData[rows][5] = protein(massPercent, findCodons(sequence));
+    	
+    	return data;
+    }
+    //prints out all of the results, calling other methods to do so
     public static void report(String[][] data)
     {
+    	for (int i = 0; i < data.length; i++) 
+    	{
+    		for (int j = 0; j < data[0].length; i++)
+    		{
+    			System.out.print(data[i][j] + " ");
+    		}
+    		System.out.println();
+    	}
     	System.out.println(data.length + " nucleotide sequences were analyzed");
     	
     	//counts how many proteins are in the 2D array
