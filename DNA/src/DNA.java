@@ -248,7 +248,7 @@ public class DNA
     public static void report(String[][] data)
     {    	
     	//number of sequences analyzed
-    	System.out.println(data.length + " nucleotide sequences were analyzed");
+    	System.out.println(data.length - 1 + " nucleotide sequences were analyized");
     	
     	//counts how many proteins are in the 2D array
     	System.out.println(countProteins(data) + " of those sequences were identified as "
