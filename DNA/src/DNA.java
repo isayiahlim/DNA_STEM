@@ -229,7 +229,7 @@ public class DNA
 		String sequence = input.nextLine().toUpperCase();
     	//finds number of each nucleotide, % of total mass, and fills out the array accordingly
     	int[] nNum = findNCount(sequence);
-    	double[] massPercent = findMass(nNum);
+    	String[] massPercent = convert(findMass(nNum));
     	
     	//nucleotides column
     	tempData[rows][1] = sequence;
@@ -240,7 +240,7 @@ public class DNA
     	//codons column
     	tempData[rows][4] = Arrays.toString(findCodons(sequence));
     	//whether it encodes protein column
-    	tempData[rows][5] = protein(massPercent, findCodons(sequence));
+    	tempData[rows][5] = protein(findMass(nNum), findCodons(sequence));
     	
     	return tempData;
     }
@@ -275,6 +275,15 @@ public class DNA
     	System.out.println("sequences have at least 30% of their mass from Cytosine and Guanine.");
     }
     
+    //turns the double mass array into a string array with 2 decimal places
+    public static String[] convert(double[] mass)
+    {
+    	String[] temp = new String[mass.length];
+    	for(int i = 0; i < mass.length; i++)
+			temp[i] = String.format("%.2f", mass[i]);
+    	return temp;
+    }
+        
     //counts the number of proteins in an array
     public static int countProteins(String[][] data)
     {
