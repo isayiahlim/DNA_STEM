@@ -240,8 +240,10 @@ public class DNA
     	//codons column
     	tempData[rows][4] = Arrays.toString(findCodons(sequence));
     	//whether it encodes protein column
-    	tempData[rows][5] = protein(findMass(nNum), findCodons(sequence));
-    	
+    	if(protein(findMass(nNum), findCodons(sequence)).equals("Encodes a protein: yes"))
+    		tempData[rows][5] = "yes";
+    	else
+    		tempData[rows][5] = "no";
     	return tempData;
     }
     //prints out all of the results, calling other methods to do so
@@ -292,7 +294,7 @@ public class DNA
     	//then it will add one to the count
     	for(int i = 0; i < data.length; i++)
     	{
-    		if(data[i][5].equals("Encodes a protein: yes"))
+    		if(data[i][5].equals("yes"))
     			count++;
     	}
     	return count;
