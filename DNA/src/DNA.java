@@ -126,10 +126,7 @@ public class DNA
     		total += i;
     	//calculates the percent mass and reassigns it to the mass array
     	for(int i = 0; i < masses.length; i ++)
-    	{
-    	 	masses[i] = (int)(masses[i]/total * 10000);
-    	 	masses[i] /= 100;
-    	}
+    	 	masses[i] = masses[i]/total * 100;
     	return masses;
     }
     
