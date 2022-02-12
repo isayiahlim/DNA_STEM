@@ -291,8 +291,7 @@ public class DNA
     	for(int i = 1; i < data.length; i++)
     	{
     		//turns the 3rd column in each row into a new String Array
-    		String[] newA = data[i][2].substring(1, data[i][2].length() - 1).split(" ,");
-    		System.out.println(Arrays.toString(newA));
+    		String[] newA = data[i][2].substring(1, data[i][2].length() - 1).split(", ");
     		//turns this string into an integer, then if it is greater than the previous highest 
     		//it changes both the highest number of the nucleotide and the name of the nucleotide.
     		if(Integer.parseInt(newA[1]) > top)
@@ -308,14 +307,17 @@ public class DNA
     public static int countCodon(String[][] data, String codon, boolean ends)
     {
     	int num = 0;    	
-    	for(int i = 0; i < data.length; i++)
+    	if(ends) 
     	{
-	    	if(ends)
-    			if(data[i][4].substring(data[i][4].length()-3).equals(codon))
+    		for(int i = 1; i < data.length; i++)
+    			if(data[i][1].substring(data[i][1].length()-3).equals(codon))
 	    			num++;
-	    	else
-	    		if(data[i][4].substring(0,3).equals(codon))
-	    			num++;
+    	}
+    	else
+    	{
+    		for(int i = 1; i < data.length; i++)
+    			if(data[i][1].substring(0,3).equals(codon))
+    				num++;
     	}
     	return num;
     }
@@ -337,9 +339,13 @@ public class DNA
     public static int percentCG(String[][] data)
     {
     	int num = 0;
-    	for(int i = 0; i < data.length; i++)
+    	for(int i = 1; i < data.length; i++)
     	{
-    		String[] temp = data[i][3].split(" ");
+    		String[] temp = data[i][3].substring(1, data[i][3].length()-1).split(", ");
+    		for(int j = 0; j < temp.length; j++)
+    		{
+    			temp[j] = temp[j].substring(0, temp[j].indexOf("."));
+    		}
     		if(Integer.parseInt(temp[1]) + Integer.parseInt(temp[2]) >= 30)
     			num++;
     	}
