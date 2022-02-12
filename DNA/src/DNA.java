@@ -268,7 +268,7 @@ public class DNA
     	System.out.println(countCodon(data, "TGA", true) + " sequences end with TGA.");
     	
     	//checks if the number of codons is more than 4
-    	System.out.println(above4(data) + " sequences contain at least 4 codons.");
+    	System.out.println(above4(data) + " sequence contain at least 4 codons.");
     	
     	//counts how many sequences have at least 30% of their mass as C and G
     	System.out.print(percentCG(data) + " ");
@@ -279,10 +279,10 @@ public class DNA
     public static int countProteins(String[][] data)
     {
     	int count = 0;
-    	//runs through every row in the array
-    	for(int i = 1; i < data.length; i++)
+    	//runs through every row in the array- if the answer to encodes a protein is yes,
+    	//then it will add one to the count
+    	for(int i = 0; i < data.length; i++)
     	{
-    		//if the answer to encodes a protein is yes, then it will add one to the count
     		if(data[i][5].equals("Encodes a protein: yes"))
     			count++;
     	}
@@ -346,6 +346,7 @@ public class DNA
     //counts how many arrays have above 30% cytosine and guanine
     public static int percentCG(String[][] data)
     {
+    	int num = 0;
     	for(int i = 1; i < data.length; i++)
     	{
     		//makes a string array equal to the mass percent column in data
@@ -357,8 +358,8 @@ public class DNA
     		}
     		//if the c+g > 30, returns one
     		if(Integer.parseInt(temp[1]) + Integer.parseInt(temp[2]) >= 30)
-    			return 1;
+    			num++;
     	}
-    	return 0;
+    	return num;
     }
 }
